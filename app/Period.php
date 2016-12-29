@@ -11,6 +11,6 @@ class Period extends Model
     ];
 
     public function year(){
-    	return $this->belongsTo('App/Year', 'id');
+    	return $this->belongsTo('App\Year', 'id');
     }
 }

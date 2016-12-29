@@ -9,4 +9,12 @@ class Course extends Model
     protected $fillable = [
     	'course', 'description', 'completed', 'grade'
     ];
+
+    public function period() {
+    	return $this->belongsTo('App\Period', 'period_course', 'course_id','period_id');
+    }
+
+    public function assignments() {
+    	return $this->hasMany('App\Assignment', 'course_assignment', 'course_id','assignment_id');
+    }
 }

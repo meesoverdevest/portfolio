@@ -11,6 +11,8 @@ class Year extends Model
     ];
 
     public function periods(){
-    	return $this->hasMany('App/Period', 'year_id');
+    	return $this->hasMany('App\Period', 'year_id');
     }
+
+    
 }
