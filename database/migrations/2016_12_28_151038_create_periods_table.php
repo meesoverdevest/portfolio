@@ -13,7 +13,16 @@ class CreatePeriodsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('periods', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('period');
+            $table->integer('year_id')->unsigned();
+            $table->timestamps();
+
+            $table->foreign('year_id')
+                ->references('id')
+                ->on('years');
+        });
     }
 
     /**
@@ -23,6 +32,6 @@ class CreatePeriodsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('periods');
     }
 }

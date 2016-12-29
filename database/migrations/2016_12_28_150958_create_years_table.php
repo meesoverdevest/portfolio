@@ -13,7 +13,12 @@ class CreateYearsTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('years', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('year');
+            $table->string('description');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class CreateYearsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('years');
     }
 }
