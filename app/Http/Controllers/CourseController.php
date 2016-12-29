@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Period;
+use App\Course;
 use App\Year;
 use Illuminate\Http\Request;
 use Session;
 
-class PeriodController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +19,9 @@ class PeriodController extends Controller
      */
     public function index()
     {
-        $periods = Period::paginate(25);
+        $courses = Course::paginate(25);
 
-        return view('admin.periods.index', compact('periods'));
+        return view('admin.courses.index', compact('courses'));
     }
 
     /**
@@ -30,9 +30,10 @@ class PeriodController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {
-        $years = Year::pluck('year', 'id');
-        return view('admin.periods.create', compact('years'));
+    {   
+        $periods = $this->getPeriods();
+
+        return view('admin.courses.create', compact('periods'));
     }
 
     /**
@@ -47,14 +48,18 @@ class PeriodController extends Controller
         
         $requestData = $request->all();
         
-        $period = new Period();
-        $period->period = $requestData['period'];
-        $period->year_id = $requestData['year_id'];
-        $period->save();
+        $course = new Course();
+        $course->course = $requestData['course'];
+        $course->description = $requestData['description'];
+        $course->completed = $requestData['completed'];
+        $course->grade = $requestData['grade'];
+        $course->save();
 
-        Session::flash('flash_message', 'Period added!');
+        $course->period()->sync([$requestData['period']]);
 
-        return redirect('admin/periods');
+        Session::flash('flash_message', 'Course added!');
+
+        return redirect('admin/courses');
     }
 
     /**
@@ -66,9 +71,9 @@ class PeriodController extends Controller
      */
     public function show($id)
     {
-        $period = Period::findOrFail($id);
+        $course = Course::findOrFail($id);
 
-        return view('admin.periods.show', compact('period'));
+        return view('admin.courses.show', compact('course'));
     }
 
     /**
@@ -80,10 +85,10 @@ class PeriodController extends Controller
      */
     public function edit($id)
     {
-        $period = Period::findOrFail($id);
-        $years = Year::pluck('year', 'id');
+        $course = Course::findOrFail($id);
+        $periods = $this->getPeriods();
 
-        return view('admin.periods.edit', compact('period', 'years'));
+        return view('admin.courses.edit', compact('course', 'periods'));
     }
 
     /**
@@ -99,14 +104,14 @@ class PeriodController extends Controller
         
         $requestData = $request->all();
         
-        $period = Period::findOrFail($id);
-        $period->period = $requestData['period'];
-        $period->year_id = $requestData['year_id']; 
-        $period->save();
+        $course = Course::findOrFail($id);
+        $course->update($requestData);
 
-        Session::flash('flash_message', 'Period updated!');
+        $course->period()->sync([$requestData['period']]);
 
-        return redirect('admin/periods');
+        Session::flash('flash_message', 'Course updated!');
+
+        return redirect('admin/courses');
     }
 
     /**
@@ -118,10 +123,23 @@ class PeriodController extends Controller
      */
     public function destroy($id)
     {
-        Period::destroy($id);
+        Course::destroy($id);
 
-        Session::flash('flash_message', 'Period deleted!');
+        Session::flash('flash_message', 'Course deleted!');
 
-        return redirect('admin/periods');
+        return redirect('admin/courses');
+    }
+
+    private function getPeriods(){
+        $years = Year::all();
+        $periods = [];
+        foreach ($years as $year) {
+            $periods[$year->year] = [];
+            foreach ($year->periods as $period) {
+               $periods[$year->year][$period->id] = $period->period;
+            }
+        }
+
+        return $periods;
     }
 }

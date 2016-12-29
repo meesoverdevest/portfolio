@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit period {{ $period->id }}</div>
+                    <div class="panel-heading">Create New course</div>
                     <div class="panel-body">
 
                         @if ($errors->any())
@@ -16,18 +16,9 @@
                             </ul>
                         @endif
 
-                        <div class="col-md-12">
-                            <p class="help-block">The currently selected year is: {{ $period->year->year }}</p>
-                        </div>
+                        {!! Form::open(['url' => '/admin/courses', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                        {!! Form::model($period, [
-                            'method' => 'PATCH',
-                            'url' => ['/admin/periods', $period->id],
-                            'class' => 'form-horizontal',
-                            'files' => true
-                        ]) !!}
-
-                        @include ('admin.periods.form', ['submitButtonText' => 'Update', 'year' => $years])
+                        @include ('admin.courses.form', ['periods' => $periods])
 
                         {!! Form::close() !!}
 

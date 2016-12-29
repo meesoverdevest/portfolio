@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
 	Route::resource('years', 'YearController');
 	Route::resource('periods', 'PeriodController');
+	Route::resource('courses', 'CourseController');
 
 
 });

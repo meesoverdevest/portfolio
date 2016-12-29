@@ -11,6 +11,10 @@ class Period extends Model
     ];
 
     public function year(){
-    	return $this->belongsTo('App\Year', 'id');
+    	return $this->belongsTo('App\Year', 'year_id');
+    }
+
+    public function course() {
+    	return $this->belongsToMany('App\Course', 'period_course', 'period_id','course_id');
     }
 }

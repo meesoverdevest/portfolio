@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit period {{ $period->id }}</div>
+                    <div class="panel-heading">Edit course {{ $course->id }}</div>
                     <div class="panel-body">
 
                         @if ($errors->any())
@@ -17,17 +17,17 @@
                         @endif
 
                         <div class="col-md-12">
-                            <p class="help-block">The currently selected year is: {{ $period->year->year }}</p>
+                            <p class="help-block">The currently selected period is: {{ $course->getPeriod()->period }} from year {{ $course->getPeriod()->year->year }}</p>
                         </div>
 
-                        {!! Form::model($period, [
+                        {!! Form::model($course, [
                             'method' => 'PATCH',
-                            'url' => ['/admin/periods', $period->id],
+                            'url' => ['/admin/courses', $course->id],
                             'class' => 'form-horizontal',
                             'files' => true
                         ]) !!}
 
-                        @include ('admin.periods.form', ['submitButtonText' => 'Update', 'year' => $years])
+                        @include ('admin.courses.form', ['submitButtonText' => 'Update', 'periods' => $periods])
 
                         {!! Form::close() !!}
 

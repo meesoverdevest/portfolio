@@ -11,10 +11,14 @@ class Course extends Model
     ];
 
     public function period() {
-    	return $this->belongsTo('App\Period', 'period_course', 'course_id','period_id');
+    	return $this->belongsToMany('App\Period', 'period_course', 'course_id','period_id');
     }
 
     public function assignments() {
     	return $this->hasMany('App\Assignment', 'course_assignment', 'course_id','assignment_id');
+    }
+
+    public function getPeriod(){
+    	return $this->period->first();
     }
 }
