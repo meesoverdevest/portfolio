@@ -17,4 +17,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-Route::resource('years', 'YearController');
+Route::get('years', ['as' => 'years', 'uses' => 'Api/YearController@index']);

@@ -40,6 +40,7 @@
                                                         'onclick'=>'return confirm("Confirm delete?")'
                                                 )) !!}
                                             {!! Form::close() !!}
+                                            <a href="{{ url('admin/courses/assignments', $item->id) }}" class="btn btn-success btn-xs">Assignments</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -15,6 +15,6 @@ class Assignment extends Model
     }
 
     public function course() {
-    	return $this->belongsTo('App\Course', 'course_assignment', 'assignment_id','course_id');
+    	return $this->belongsToMany('App\Course', 'course_assignment', 'assignment_id','course_id');
     }
 }

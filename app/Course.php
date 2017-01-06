@@ -15,7 +15,7 @@ class Course extends Model
     }
 
     public function assignments() {
-    	return $this->hasMany('App\Assignment', 'course_assignment', 'course_id','assignment_id');
+    	return $this->belongsToMany('App\Assignment', 'course_assignment', 'course_id','assignment_id');
     }
 
     public function getPeriod(){

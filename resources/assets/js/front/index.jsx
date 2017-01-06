@@ -3,11 +3,15 @@ import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 
 import storeFactory from './utils/store';
+import reducer from './reducer.js';
 
-class App extends React.Component {
-  render () {
-    return <p> Hello React!</p>;
-  }
-}
+import App from './containers/app';
 
-render(<App/>, document.getElementById('react-canvas'));
+var store = storeFactory(reducer);
+
+render(
+	<Provider store={store}>
+		<App/>
+	</Provider>, 
+	document.getElementById('react-canvas')
+);
